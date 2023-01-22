@@ -6,3 +6,4 @@ PROGRAM LIST
 3.  Merge two sorted array
 4.  Stack using Array
 5.  Queue using Array
+6.  Circular Queue
