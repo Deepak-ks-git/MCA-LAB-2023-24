@@ -1,0 +1,72 @@
+<html>
+    <head>
+        <script type="text/javascript">
+            function validate(){
+                if(document.form1.name.value===""){
+                    alert("name is required");
+                    document.form1.name.focus();
+                }
+                if(document.form1.gender.value===""){
+                    alert("Gender is required");
+                    document.form1.gender.focus();
+                }
+                if(document.form1.dob.value===""){
+                    alert("dob is required");
+                    document.form1.dob.focus();
+                }
+                if(document.form1.course.value===""){
+                    alert("course is required");
+                    document.form1.course.focus();
+                }
+                
+            }
+        </script>
+    </head>
+    <body>  <center>
+            <table border="2" >
+                <form name="form1" onsubmit="return(validate());">
+                <tr>
+                    <td colspan="2" align="center">
+                   <h2>Registration</h2> 
+                </td>
+            </tr>
+            
+                <tr>
+                    <td>name</td>
+                    <td><input name="name"></td>
+                </tr>
+                <tr>
+                    <td>gender</td>
+                    <td>male<input type="radio" name="gender" value="m">
+                        Female<input type="radio" name="gender" value="f">
+                        Others<input type="radio" name="gender" value="o">
+                    </td>
+                </tr>
+                <tr>
+                    <td>dob</td>
+                    <td><input type="date" name="dob"></td>
+                </tr>
+                <tr>
+                    <td>course</td>
+                    <td><select name="course">
+                        <option value="ba">BA</option>
+                        <option value="bsc">BSC</option>
+                        <option value="bcom">BCOM</option>
+
+                    </select></td>
+                </tr>
+                <tr>
+                    <td>Hobbies</td>
+                    <td>singing<input type="checkbox" name="sing" value="on">
+                        dancing<input type="checkbox" name="dance" value="on">
+                        reading<input type="checkbox" name="read" value="on"></td>
+                </tr>
+                <tr ><td colspan="2" align="center">
+                    <input type="submit" ><input type="reset"></td>
+                </tr>
+            </form>
+            </table>
+            
+        </center>
+    </body>
+</html>
