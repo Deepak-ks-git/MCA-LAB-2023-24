@@ -7,3 +7,4 @@ PROGRAM LIST
 4.  Stack using Array
 5.  Queue using Array
 6.  Circular Queue
+7.  Binary Search
