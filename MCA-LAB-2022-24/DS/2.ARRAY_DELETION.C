@@ -2,7 +2,7 @@
 #include<conio.h>
 
 void main(){
-       int a[20],n,i,c,pos;  \
+       int a[20],n,i,c,pos;  
        clrscr();
        printf("enter array size \n");
        scanf("%d",&n);
