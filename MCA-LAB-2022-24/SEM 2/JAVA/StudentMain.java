@@ -15,13 +15,13 @@ class Student {
 }
 
 interface Sports {
-    final int gracemark = 10;
+    int gracemark = 10;
 
     void getGraceMark();
 }
 
 class Result extends Student implements Sports {
-    void getGraceMark() {
+    public void getGraceMark() {
         System.out.println("Grace mark awarded: " + gracemark);
     }
 
@@ -44,4 +44,3 @@ class StudentMain {
         r.getResult();
     }
 }
-
