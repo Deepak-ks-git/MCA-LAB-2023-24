@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".second_activity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/result"
+        android:gravity="center"
+        android:text=""/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn2"
+        android:text="PREVIOUS"
+        android:onClick="previousactivity"
+        android:gravity="center"/>
+
+</LinearLayout>
+
+
+public class MainActivity extends AppCompatActivity {
+    EditText e1,e2;
+    SharedPreferences sp;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        e1=(EditText) findViewById(R.id.num1);
+        e2=(EditText) findViewById(R.id.num2);
+        sp=getSharedPreferences("MyPref",MODE_PRIVATE);
+    }
+    public void add(View view){
+        float num1=Float.parseFloat(e1.getText().toString());
+        float num2=Float.parseFloat(e2.getText().toString());
+        float sum=num1 +num2;
+        SharedPreferences.Editor editor=sp.edit();
+        editor.putFloat("num1",num1);
+        editor.putFloat("num2",num2);
+        editor.putFloat("sum",sum);
+        editor.apply();
+        Intent intent=new Intent(this,second_activity.class);
+        startActivity(intent);
+
+
+    }
+}
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".second_activity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/result"
+        android:gravity="center"
+        android:text=""/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn2"
+        android:text="PREVIOUS"
+        android:onClick="previousactivity"
+        android:gravity="center"/>
+
+</LinearLayout>
+
+
+public class second_activity extends AppCompatActivity {
+
+    TextView t;
+    SharedPreferences sp;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_second);
+        sp = getSharedPreferences("MyPref", MODE_PRIVATE);
+        t = (TextView) findViewById(R.id.result);
+        float sum = sp.getFloat("sum", 0.0f);
+        t.setText("Sum=" + sum);
+    }
+    public void previousactivity(View view){
+        System.out.println("Previous");
+        startActivity(new Intent(this,MainActivity.class));
+
+
+        }
+
+}
