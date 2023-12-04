@@ -1,0 +1,148 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/first"
+        android:text="first text"
+        android:gravity="center"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/str1"
+        android:gravity="center"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/second"
+        android:text="first text"
+        android:gravity="center"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/str2"
+        android:gravity="center"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/third"
+        android:text="Symbol"
+        android:gravity="center"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sym"
+        android:gravity="center"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn1"
+        android:text="SUBMIT"
+        android:onClick="verify"
+        android:gravity="center"/>
+
+
+
+</LinearLayout>
+
+
+
+
+public class MainActivity extends AppCompatActivity {
+
+    EditText e1,e2,e3;
+    String a="+";
+    String s="-";
+    SharedPreferences sp;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        e1=(EditText) findViewById(R.id.str1);
+        e2=(EditText) findViewById(R.id.str2);
+        e3=(EditText) findViewById(R.id.sym);
+        sp=getSharedPreferences("MyPref",MODE_PRIVATE);
+    }
+
+    public void verify(View v){
+        String s1=e1.getText().toString();
+        String s2=e2.getText().toString();
+        String o=e3.getText().toString();
+
+        if(o.equals(a) || o.equals(s))
+        {
+            String res=s1+o+s2;
+            SharedPreferences.Editor editor=sp.edit();
+            editor.putString("str1",s1);
+            editor.putString("str2",s2);
+            editor.putString("o",o);
+            editor.putString("res",res);
+
+
+            editor.apply();
+            Intent intent=new Intent(this,second_activity.class);
+            startActivity(intent);
+
+
+
+        }
+        else
+            Toast.makeText(this,"Invalid operator",Toast.LENGTH_LONG).show();
+    }
+}
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".second_activity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/result"
+        android:gravity="center"
+        android:text=""/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:id="@+id/btn2"
+        android:text="Previous Page"
+        android:onClick="previous"/>
+
+
+</LinearLayout>
+
+public class second_activity extends AppCompatActivity {
+    TextView tv;
+    SharedPreferences  sp;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_second);
+        sp=getSharedPreferences("MyPref",MODE_PRIVATE);
+        tv=(TextView) findViewById(R.id.result);
+        String res=sp.getString("res","");
+        tv.setText(res);
+    }
+    public void previous(View view){
+        System.out.println("previous");
+        startActivity(new Intent(this,MainActivity.class));
+    }
+}
