@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ice"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="select"/>
+</LinearLayout>
+
+
+package com.example.icecream;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+
+public class MainActivity extends AppCompatActivity {
+    Spinner s;
+    String Ice[]={"Chocolate","Vanilla","Strawberry"};
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        s=(Spinner) findViewById(R.id.ice);
+
+        ArrayAdapter<String> adapter= new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,Ice);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        s.setAdapter(adapter);
+
+    }
+    public void select(View V){
+        String selected=s.getSelectedItem().toString();
+        Intent intent=new Intent(this,SecondActivity.class);
+        intent.putExtra("Selected",selected);
+        startActivity(intent);
+    }
+}
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SecondActivity">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgview"
+        android:src="@drawable/choco"/>
+</LinearLayout>
+
+package com.example.icecream;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.ImageView;
+
+public class SecondActivity extends AppCompatActivity {
+
+    ImageView imageView;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_second);
+        imageView =(ImageView) findViewById(R.id.imgview);
+        Intent intent = getIntent();
+
+        String s=intent.getStringExtra("Selected");
+        assert s != null;
+        if (s.equals("Vanilla")){
+            imageView.setImageResource(R.drawable.vanilla);
+
+        } else if (s.equals("Chocolate")) {
+            imageView.setImageResource(R.drawable.choco);
+
+
+        }
+        else if (s.equals("Strawberry")) {
+            imageView.setImageResource(R.drawable.straw);
+
+
+        }
+
+    }
+}
+
+
+<resources>
+    <string name="app_name">IceCream</string>
+    <string-array name="Ice">
+        <item>Chocolate</item>
+        <item>Vanilla</item>
+        <item>Strawberry</item>
+    </string-array>
+</resources>
