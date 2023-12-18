@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+  <EditText
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/num1"
+      android:inputType="number"
+      />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/num2"
+        android:inputType="number"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="submit"
+        android:text="submit"/>
+  </LinearLayout>
+
+  package com.example.number;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+    EditText num1,num2;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        num1=(EditText) findViewById(R.id.num1);
+        num2=(EditText) findViewById(R.id.num2);
+
+    }
+    public void submit(View v){
+
+        Integer n1=Integer.parseInt(num1.getText().toString());
+        Integer n2=Integer.parseInt(num2.getText().toString());
+        if(n1 > 0 && n1 < 101 && n2 > 0 && n2 <101){
+            Integer sum=n1+n2;
+            Intent intent=new Intent(this,SecondActivity.class);
+            intent.putExtra("sum",sum);
+            startActivity(intent);
+        }
+        else{
+            Toast.makeText(this,"this number should be within range 1 to 100",Toast.LENGTH_LONG).show();
+        }
+
+
+
+    }
+}
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SecondActivity">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/res"/>
+
+</LinearLayout>
+
+  package com.example.number;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.TextView;
+
+public class SecondActivity extends AppCompatActivity {
+    TextView res;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_second);
+        res=(TextView) findViewById(R.id.res);
+
+        Intent intent=getIntent();
+        Integer r=intent.getIntExtra("sum",0);
+        res.setText("sum is "+r);
+
+    }
+}
+  
