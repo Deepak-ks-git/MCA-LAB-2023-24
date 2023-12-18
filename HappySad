@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/name"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/mark"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn"
+        android:onClick="verify"/>
+
+</LinearLayout>
+
+
+package com.example.happy;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+
+public class MainActivity extends AppCompatActivity {
+
+    EditText name,mark;
+    SharedPreferences sp;
+    @SuppressLint("MissingInflatedId")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        name=(EditText) findViewById(R.id.name);
+        mark=(EditText) findViewById(R.id.mark);
+        sp=getSharedPreferences("MyPref",MODE_PRIVATE);
+    }
+    public void verify(View v){
+        Integer p=Integer.parseInt(mark.getText().toString());
+        String n=name.getText().toString();
+        String res;
+        if (p>=60 ){
+            res="Pass";
+        }
+        else {
+            res="Fail";
+        }
+        SharedPreferences.Editor editor=sp.edit();
+        editor.putString("Result",res);
+        editor.apply();
+        startActivity(new Intent(this,SecondActivity.class));
+    }
+}
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SecondActivity">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/img"
+        android:src="@drawable/sad"/>
+
+
+</LinearLayout>
+
+package com.example.happy;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.widget.ImageView;
+
+public class SecondActivity extends AppCompatActivity {
+    ImageView img;
+    SharedPreferences sp;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_second);
+        img=(ImageView) findViewById(R.id.img);
+        sp=getSharedPreferences("MyPref",MODE_PRIVATE);
+        String a=sp.getString("Result","");
+        if(a.equals("Pass")){
+            img.setImageResource(R.drawable.happy);
+        }
+        else{
+            img.setImageResource(R.drawable.sad);
+        }
+
+    }
+}
