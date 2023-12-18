@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+
+   <EditText
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+      android:id="@+id/txt1"
+      android:hint="first string"/>
+   <EditText
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:id="@+id/txt2"
+       android:hint="second string"/>
+   <EditText
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:id="@+id/txt3"
+       android:hint="oprand"/>
+   <Button
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+      android:onClick="submit"/>
+</LinearLayout>
+
+package com.example.validoperator;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import java.security.PublicKey;
+
+public class MainActivity extends AppCompatActivity {
+    EditText txt1,txt2,op;
+    SharedPreferences sp;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        txt1=(EditText) findViewById(R.id.txt1);
+        txt2=(EditText) findViewById(R.id.txt2);
+        op=(EditText) findViewById(R.id.txt3);
+
+        sp=getSharedPreferences("MyPref",MODE_PRIVATE);
+
+
+
+    }
+    public void submit(View v){
+        SharedPreferences.Editor editor=sp.edit();
+        String s1=txt1.getText().toString();
+        String s2=txt2.getText().toString();
+        String oper=op.getText().toString();
+        if(oper.equals("+") || oper.equals("-")){
+            editor.putString("S1",s1);
+            editor.putString("S2",s2);
+            editor.putString("S3",oper);
+            editor.apply();
+
+            startActivity(new Intent(this,SecondActivity.class));
+
+        }
+        else{
+            Toast.makeText(this,"enter oprand  + or  -",Toast.LENGTH_LONG).show();
+        }
+
+    }
+}
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SecondActivity">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/res"/>
+</LinearLayout>
+
+
+package com.example.validoperator;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.widget.TextView;
+
+public class SecondActivity extends AppCompatActivity {
+
+    SharedPreferences sp;
+    TextView res;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_second);
+        res=(TextView) findViewById(R.id.res);
+        sp=getSharedPreferences("MyPref",MODE_PRIVATE);
+        String s1=sp.getString("S1","");
+        String s2=sp.getString("S2","");
+        String op=sp.getString("S3","");
+        res.setText(s1+op+s2);
+
+
+
+    }
+}
